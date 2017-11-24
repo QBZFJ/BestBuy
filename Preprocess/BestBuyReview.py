@@ -34,19 +34,12 @@ def xml_preprocesswname(path):
     skuDict = dict()
     for subdir, dirs, files in os.walk(path):
         for filepath in files:
-            # print(os.path.join(subdir, file))
             file = open(os.path.join(subdir, filepath), encoding='utf-8')
             tree = ET.parse(file)
             root = tree.getroot()
 
             for page in list(root):
-                name = page[2][0].text
-                # review = ''
-                # for reviewer in list(name):
-                #     print(reviewer)
-                #     review = reviewer.find('name')
-                #     if  reviewer.find('name'):
-                #         print("reivew" + review)
+                name = page.find('reviewer').find('name').text
                 sku = page.find('sku').text
                 rating = page.find('rating').text
                 print('name: %s; sku: %s; rating: %s' % (name, sku, rating))
