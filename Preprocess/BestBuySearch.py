@@ -9,13 +9,13 @@ def getQueryUserCount(path):
     reader = csv.reader(file)
     dataUserCount = dict()
     for rows in reader:
-        if rows[0] not in dataUserCount:
-            dataUserCount[rows[0]] = 1
+        if rows[1] not in dataUserCount:
+            dataUserCount[rows[1]] = 1
         else:
-            dataUserCount[rows[0]] += 1
+            dataUserCount[rows[1]] += 1
     file.close()
-    thresholddeduction(dataUserCount, 5)
-
+    # thresholddeduction(dataUserCount, 5)
+    print(len(dataUserCount))
     dataUserCount = sorted(dataUserCount.items(), key=lambda x: x[1], reverse=True)
     return dataUserCount
 

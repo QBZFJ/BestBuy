@@ -30,6 +30,28 @@ def xml_preprocess(path):
                 # print('sku: %s; rating: %s' % (sku, rating))
     return skuDict
 
+def xml_preprocesswname(path):
+    skuDict = dict()
+    for subdir, dirs, files in os.walk(path):
+        for filepath in files:
+            # print(os.path.join(subdir, file))
+            file = open(os.path.join(subdir, filepath), encoding='utf-8')
+            tree = ET.parse(file)
+            root = tree.getroot()
+
+            for page in list(root):
+                name = page[2][0].text
+                # review = ''
+                # for reviewer in list(name):
+                #     print(reviewer)
+                #     review = reviewer.find('name')
+                #     if  reviewer.find('name'):
+                #         print("reivew" + review)
+                sku = page.find('sku').text
+                rating = page.find('rating').text
+                print('name: %s; sku: %s; rating: %s' % (name, sku, rating))
+    return skuDict
+
 def avgReviewRate(dict):
     for avgrate in dict:
         if dict[avgrate][0] != 0 and dict[avgrate][1] != 0:
@@ -40,7 +62,7 @@ def avgReviewRate(dict):
             dict[avgrate][0] = avg
 
     return dict
-
-print(avgReviewRate(xml_preprocess(directory_path)))
+print(xml_preprocesswname(directory_path))
+# print(avgReviewRate(xml_preprocess(directory_path)))
 # print(xml_preprocess(directory_path))
 # print(foldername(directory_path))
