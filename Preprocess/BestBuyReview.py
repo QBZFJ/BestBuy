@@ -42,7 +42,8 @@ def xml_preprocesswname(path):
                 name = page.find('reviewer').find('name').text
                 sku = page.find('sku').text
                 rating = page.find('rating').text
-                print('name: %s; sku: %s; rating: %s' % (name, sku, rating))
+                skuDict[name] = [sku, rating]
+                # print('name: %s; sku: %s; rating: %s' % (name, sku, rating))
     return skuDict
 
 def avgReviewRate(dict):
