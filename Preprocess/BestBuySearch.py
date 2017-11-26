@@ -3,19 +3,35 @@ import csv
 testDataSet_path = "..\\test.csv"
 trainDataSet_path = "..\\train.csv"
 
-#Query count for each user
+#Query SKU count
+def getQuerySKUCount(path):
+    file = open(path, encoding='utf-8')
+    reader = csv.reader(file)
+    dataSKUCount = dict()
+    for rows in reader:
+        if rows[1] not in dataSKUCount:
+            dataSKUCount[rows[1]] = 1
+        else:
+            dataSKUCount[rows[1]] += 1
+    file.close()
+    thresholddeduction(dataSKUCount, 5)
+    # print(len(dataSKUCount))
+    dataSKUCount = sorted(dataSKUCount.items(), key=lambda x: x[1], reverse=True)
+    return dataSKUCount
+
+#Query User count
 def getQueryUserCount(path):
     file = open(path, encoding='utf-8')
     reader = csv.reader(file)
     dataUserCount = dict()
     for rows in reader:
-        if rows[1] not in dataUserCount:
-            dataUserCount[rows[1]] = 1
+        if rows[0] not in dataUserCount:
+            dataUserCount[rows[0]] = 1
         else:
-            dataUserCount[rows[1]] += 1
+            dataUserCount[rows[0]] += 1
     file.close()
-    # thresholddeduction(dataUserCount, 5)
-    print(len(dataUserCount))
+    thresholddeduction(dataUserCount, 5)
+    # print(len(dataUserCount))
     dataUserCount = sorted(dataUserCount.items(), key=lambda x: x[1], reverse=True)
     return dataUserCount
 
@@ -69,6 +85,15 @@ def printfunction(list):
     for i in list:
         print(i)
 
-# printfunction(getQueryUserCount(trainDataSet_path)[:101])
+def toCSV(list, name):
+    with open(name + '.csv', 'w', newline='') as f:
+        for i in list:
+            w = csv.writer(f)
+            w.writerow(i)
+
+# printfunction(getQuerySKUCount(trainDataSet_path)[:101])
 # printfunction(getEachUserQuery(trainDataSet_path)[:101])
-printfunction(getXBoxSampleQuery(trainDataSet_path)[:101])
+# printfunction(getXBoxSampleQuery(trainDataSet_path)[:101])
+
+toCSV(getQueryUserCount(trainDataSet_path), "getQueryUserCount")
+toCSV(getQuerySKUCount(trainDataSet_path), "getQuerySKUCount")
